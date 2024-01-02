@@ -4,7 +4,7 @@
 
 resource "aws_instance" "demo-server" {
   ami = "ami-03f4878755434977f"
-  instance_type = "t2.micro"
+  instance_type = "t2.medium"
   key_name = "Talachavi"
   //security_groups = [ "demo-sg" ]
   vpc_security_group_ids = [aws_security_group.demo-sg.id]
@@ -89,4 +89,15 @@ resource "aws_route_table_association" "demo-rt-pu-subnet-01" {
 resource "aws_route_table_association" "demo-rt-pu-subnet-02" {
     subnet_id = aws_subnet.demo-pub-subnet-02.id
     route_table_id = aws_route_table.demo-pub-rt.id
+}
+
+output "public_ip" {
+  value = {
+    for instance_key, instance_value in aws_instance.demo-server : instance_key => instance_value.public_ip
+  }
+}
+output "private_ip" {
+  value = { 
+    for instance_key, instance_value in aws_instance.demo-server : instance_key => instance_value.private_ip 
+  }
 }
