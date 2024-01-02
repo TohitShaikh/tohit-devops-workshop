@@ -9,7 +9,7 @@
 
    - name: Adding Jenkins Repo
      apt_repository: 
-      repo:  'echo deb https://pkg.jenkins.io/debian-stable binary/'
+      repo:  deb https://pkg.jenkins.io/debian-stable binary/
       state: present
 
    - name: Installing Java
